@@ -2,6 +2,13 @@ from PIL import Image
 import os
 from os.path import isfile, join
 
+for_printing_folder = "./output/"
+
+
+def chunks(file_list, length):
+    for i in range(0, len(file_list), length):
+        yield file_list[i:i + length]
+
 
 def image_combiner(name: str, images: list, card_size: tuple, margin: int, color=(255, 255, 255)):
     y_offset = 0
@@ -23,19 +30,42 @@ def image_combiner(name: str, images: list, card_size: tuple, margin: int, color
         y_offset = 0
         chunk_counter += 1
         new_image_name = name + str(chunk_counter) + '.png'
-        output_file = os.path.join(self.for_printing_folder, new_image_name)
+        output_file = os.path.join(for_printing_folder, new_image_name)
         new_image.save(output_file)
 
 
-def combine(cards_list: list):
+def combine_cards(cards_list: list):
     image_combiner("card", cards_list, (532, 744), 2)
+
+def combine_backs():
+    dirname = os.path.dirname(__file__)
+    card_path = os.path.join(dirname, '_SFB/sideb.png')
+    back_list = [card_path] * 9
+    image_combiner("back", back_list, (532, 744), 2)
+
+def combine_characters(chars_list: list, inspired_list: list):
+    image_combiner("char_front", chars_list, (532, 744), 2)
+    image_combiner("char_back", inspired_list, (532, 744), 2)
 
 
 def listfile(mypath: str) -> list:
-    onlyfiles = [file for file in mypath if isfile(join(mypath, file))]
-    return onlyfiles
+    dirname = os.path.dirname(__file__)
+    files = [os.path.join(mypath, file) for file in os.listdir(mypath)]
+    files.sort()
+
+    # onlyfiles = [os.path.join() for file in mypath if isfile(join(mypath, file))]
+    for file in files:
+        print(file, end='\n')
+    return files
+
 
 dirname = os.path.dirname(__file__)
-cards_folder = os.path.join(dirname, './cards/')
-combine(listfile(cards_folder))
+cards_folder = os.path.join(dirname, '_SFB/cards/')
+chars_folder_front = os.path.join(dirname, '_SFB/chars2/')
+chars_folder_back = os.path.join(dirname, '_SFB/chars3/')
+# combine_cards(listfile(cards_folder))
+# combine_backs()
+combine_characters(listfile(chars_folder_front), listfile(chars_folder_back))
+
+
 
