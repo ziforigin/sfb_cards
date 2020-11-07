@@ -37,11 +37,13 @@ def image_combiner(name: str, images: list, card_size: tuple, margin: int, color
 def combine_cards(cards_list: list):
     image_combiner("card", cards_list, (532, 744), 2)
 
+
 def combine_backs():
     dirname = os.path.dirname(__file__)
     card_path = os.path.join(dirname, '_SFB/sideb.png')
     back_list = [card_path] * 9
     image_combiner("back", back_list, (532, 744), 2)
+
 
 def combine_characters(chars_list: list, inspired_list: list):
     image_combiner("char_front", chars_list, (532, 744), 2)
@@ -49,23 +51,46 @@ def combine_characters(chars_list: list, inspired_list: list):
 
 
 def listfile(mypath: str) -> list:
-    dirname = os.path.dirname(__file__)
     files = [os.path.join(mypath, file) for file in os.listdir(mypath)]
     files.sort()
-
-    # onlyfiles = [os.path.join() for file in mypath if isfile(join(mypath, file))]
     for file in files:
         print(file, end='\n')
     return files
 
 
+def combine_object_cards(cards_list: list):
+    image_combiner("obj", cards_list, (266, 372), 2)
+
+
+def combine_object_backs():
+    dirname = os.path.dirname(__file__)
+    card_path = os.path.join(dirname, '_SFB/misc/_BACKSIDE_.png')
+    back_list = [card_path] * 9
+    image_combiner("obj_back", back_list, (266, 372), 2)
+
+
+def trap_combiner(cards_list):
+    image_combiner("trap_back", cards_list, (146, 146), 2)
+
+
+def combine_trap_backs():
+        dirname = os.path.dirname(__file__)
+        card_path = os.path.join(dirname, '_SFB/misc/trap12.png')
+        back_list = [card_path] * 12
+        image_combiner("trap", back_list, (146, 146), 2)
+
+
 dirname = os.path.dirname(__file__)
-cards_folder = os.path.join(dirname, '_SFB/cards/')
-chars_folder_front = os.path.join(dirname, '_SFB/chars2/')
-chars_folder_back = os.path.join(dirname, '_SFB/chars3/')
+# cards_folder = os.path.join(dirname, '_SFB/cards/')
+# chars_folder_front = os.path.join(dirname, '_SFB/chars2/')
+# chars_folder_back = os.path.join(dirname, '_SFB/chars3/')
+# obj_card_folder = os.path.join(dirname, '_SFB/goals')
+trap_folder = os.path.join(dirname, '_SFB/traps')
 # combine_cards(listfile(cards_folder))
 # combine_backs()
-combine_characters(listfile(chars_folder_front), listfile(chars_folder_back))
-
-
+# combine_characters(listfile(chars_folder_front), listfile(chars_folder_back))
+# combine_object_backs()
+# combine_object_cards(listfile(obj_card_folder))
+# combine_trap_backs()
+trap_combiner(listfile(trap_folder))
 
